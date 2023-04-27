@@ -18,6 +18,7 @@ import RNTMyLegacyNativeView from './MyLegacyViewNativeComponent';
 import type {MyLegacyViewType} from './MyLegacyViewNativeComponent';
 import type {MyNativeViewType} from './MyNativeViewNativeComponent';
 import {callNativeMethodToChangeBackgroundColor} from './MyLegacyViewNativeComponent';
+
 const colors = [
   '#0000FF',
   '#FF0000',

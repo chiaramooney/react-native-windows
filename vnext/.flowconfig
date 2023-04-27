@@ -119,7 +119,6 @@ nonstrict-import=warn
 deprecated-type=error
 unsafe-getters-setters=warn
 unnecessary-invariant=warn
-unused-promise=error
 
 [strict]
 deprecated-type
@@ -131,4 +130,4 @@ untyped-import
 untyped-type-import
 
 [version]
-^0.203.0
+^0.202.0

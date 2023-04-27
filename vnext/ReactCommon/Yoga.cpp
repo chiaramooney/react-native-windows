@@ -181,9 +181,9 @@ YOGA_EXPORT bool YGNodeIsDirty(YGNodeRef node) {
   return node->isDirty();
 }
 
-YOGA_EXPORT void YGNodeMarkDirtyAndPropagateToDescendants(
+YOGA_EXPORT void YGNodeMarkDirtyAndPropogateToDescendants(
     const YGNodeRef node) {
-  return node->markDirtyAndPropagateDownwards();
+  return node->markDirtyAndPropogateDownwards();
 }
 
 int32_t gConfigInstanceCount = 0;
@@ -291,7 +291,7 @@ YOGA_EXPORT void YGNodeSetIsReferenceBaseline(
     bool isReferenceBaseline) {
   if (node->isReferenceBaseline() != isReferenceBaseline) {
     node->setIsReferenceBaseline(isReferenceBaseline);
-    node->markDirtyAndPropagate();
+    node->markDirtyAndPropogate();
   }
 }
 
@@ -315,7 +315,7 @@ YOGA_EXPORT void YGNodeInsertChild(
 
   owner->insertChild(child, index);
   child->setOwner(owner);
-  owner->markDirtyAndPropagate();
+  owner->markDirtyAndPropogate();
 }
 
 YOGA_EXPORT void YGNodeSwapChild(
@@ -343,7 +343,7 @@ YOGA_EXPORT void YGNodeRemoveChild(
       excludedChild->setLayout({}); // layout is no longer valid
       excludedChild->setOwner(nullptr);
     }
-    owner->markDirtyAndPropagate();
+    owner->markDirtyAndPropogate();
   }
 }
 
@@ -363,13 +363,13 @@ YOGA_EXPORT void YGNodeRemoveAllChildren(const YGNodeRef owner) {
       oldChild->setOwner(nullptr);
     }
     owner->clearChildren();
-    owner->markDirtyAndPropagate();
+    owner->markDirtyAndPropogate();
     return;
   }
   // Otherwise, we are not the owner of the child set. We don't have to do
   // anything to clear it.
   owner->setChildren(YGVector());
-  owner->markDirtyAndPropagate();
+  owner->markDirtyAndPropogate();
 }
 
 static void YGNodeSetChildrenInternal(
@@ -385,7 +385,7 @@ static void YGNodeSetChildrenInternal(
         child->setOwner(nullptr);
       }
       owner->setChildren(YGVector());
-      owner->markDirtyAndPropagate();
+      owner->markDirtyAndPropogate();
     }
   } else {
     if (YGNodeGetChildCount(owner) > 0) {
@@ -403,7 +403,7 @@ static void YGNodeSetChildrenInternal(
     for (YGNodeRef child : children) {
       child->setOwner(owner);
     }
-    owner->markDirtyAndPropagate();
+    owner->markDirtyAndPropogate();
   }
 }
 
@@ -448,7 +448,7 @@ YOGA_EXPORT void YGNodeMarkDirty(const YGNodeRef node) {
       "Only leaf nodes with custom measure functions"
       "should manually mark themselves as dirty");
 
-  node->markDirtyAndPropagate();
+  node->markDirtyAndPropogate();
 }
 
 YOGA_EXPORT void YGNodeCopyStyle(
@@ -456,7 +456,7 @@ YOGA_EXPORT void YGNodeCopyStyle(
     const YGNodeRef srcNode) {
   if (!(dstNode->getStyle() == srcNode->getStyle())) {
     dstNode->setStyle(srcNode->getStyle());
-    dstNode->markDirtyAndPropagate();
+    dstNode->markDirtyAndPropogate();
   }
 }
 
@@ -483,7 +483,7 @@ void updateStyle(
     Update &&update) {
   if (needsUpdate(node->getStyle(), value)) {
     update(node->getStyle(), value);
-    node->markDirtyAndPropagate();
+    node->markDirtyAndPropogate();
   }
 }
 
@@ -515,7 +515,7 @@ void updateIndexedStyleProp(
 // MSVC has trouble inferring the return type of pointer to member functions
 // with const and non-const overloads, instead of preferring the non-const
 // overload like clang and GCC. For the purposes of updateStyle(), we can help
-// MSVC by specifying that return type explicitly. In combination with
+// MSVC by specifying that return type explicitely. In combination with
 // decltype, MSVC will prefer the non-const version.
 #define MSVC_HINT(PROP) decltype(YGStyle{}.PROP())
 
@@ -1835,7 +1835,7 @@ static bool YGNodeFixedSizeSetMeasuredDimensions(
   return false;
 }
 
-static void YGZeroOutLayoutRecursively(
+static void YGZeroOutLayoutRecursivly(
     const YGNodeRef node,
     void *layoutContext) {
   node->getLayout() = {};
@@ -1844,7 +1844,7 @@ static void YGZeroOutLayoutRecursively(
   node->setHasNewLayout(true);
 
   node->iterChildrenAfterCloningIfNeeded(
-      YGZeroOutLayoutRecursively, layoutContext);
+      YGZeroOutLayoutRecursivly, layoutContext);
 }
 
 static float YGNodeCalculateAvailableInnerDim(
@@ -1920,7 +1920,7 @@ static float YGNodeComputeFlexBasisForChildren(
   for (auto child : children) {
     child->resolveDimension();
     if (child->getStyle().display() == YGDisplayNone) {
-      YGZeroOutLayoutRecursively(child, layoutContext);
+      YGZeroOutLayoutRecursivly(child, layoutContext);
       child->setHasNewLayout(true);
       child->setDirty(false);
       continue;

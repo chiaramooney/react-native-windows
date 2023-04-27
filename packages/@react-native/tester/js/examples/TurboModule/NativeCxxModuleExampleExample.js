@@ -55,14 +55,7 @@ type Examples =
   | 'promise'
   | 'rejectPromise'
   | 'voidFunc'
-  | 'optionalArgs'
-  | 'emitDeviceEvent'
-  | 'voidFuncThrows'
-  | 'getObjectThrows'
-  | 'promiseThrows'
-  | 'voidFuncAssert'
-  | 'getObjectAssert'
-  | 'promiseAssert';
+  | 'emitDeviceEvent';
 
 class NativeCxxModuleExampleExample extends React.Component<{||}, State> {
   static contextType: React$Context<RootTag> = RootTagContext;
@@ -106,7 +99,6 @@ class NativeCxxModuleExampleExample extends React.Component<{||}, State> {
         .then(() => {})
         .catch(e => this._setResult('rejectPromise', e.message)),
     voidFunc: () => NativeCxxModuleExample?.voidFunc(),
-    optionalArgs: () => NativeCxxModuleExample?.getWithWithOptionalArgs(),
     emitDeviceEvent: () => {
       const CUSTOM_EVENT_TYPE = 'myCustomDeviceEvent';
       DeviceEventEmitter.removeAllListeners(CUSTOM_EVENT_TYPE);
@@ -117,50 +109,6 @@ class NativeCxxModuleExampleExample extends React.Component<{||}, State> {
         );
       });
       NativeCxxModuleExample?.emitCustomDeviceEvent(CUSTOM_EVENT_TYPE);
-    },
-    voidFuncThrows: () => {
-      try {
-        NativeCxxModuleExample?.voidFuncThrows();
-      } catch (e) {
-        return e.message;
-      }
-    },
-    getObjectThrows: () => {
-      try {
-        NativeCxxModuleExample?.getObjectThrows({a: 1, b: 'foo', c: null});
-      } catch (e) {
-        return e.message;
-      }
-    },
-    promiseThrows: () => {
-      try {
-        // $FlowFixMe[unused-promise]
-        NativeCxxModuleExample?.promiseThrows();
-      } catch (e) {
-        return e.message;
-      }
-    },
-    voidFuncAssert: () => {
-      try {
-        NativeCxxModuleExample?.voidFuncAssert();
-      } catch (e) {
-        return e.message;
-      }
-    },
-    getObjectAssert: () => {
-      try {
-        NativeCxxModuleExample?.getObjectAssert({a: 1, b: 'foo', c: null});
-      } catch (e) {
-        return e.message;
-      }
-    },
-    promiseAssert: () => {
-      try {
-        // $FlowFixMe[unused-promise]
-        NativeCxxModuleExample?.promiseAssert();
-      } catch (e) {
-        return e.message;
-      }
     },
   };
 
@@ -205,6 +153,9 @@ class NativeCxxModuleExampleExample extends React.Component<{||}, State> {
         'Cannot load this example because TurboModule is not configured.',
       );
     }
+    Object.keys(this._tests).forEach(item =>
+      this._setResult(item, this._tests[item]()),
+    );
   }
 
   render(): React.Node {

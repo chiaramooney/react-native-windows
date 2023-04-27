@@ -8,13 +8,13 @@
     "**/__snapshots__/**",
     "src/rntypes/**"
   ],
-  "baseVersion": "0.0.0-20230404-2109-62c4da142",
+  "baseVersion": "0.72.0-rc.1",
   "overrides": [
     {
       "type": "derived",
       "file": ".flowconfig",
       "baseFile": ".flowconfig",
-      "baseHash": "241d0d49a4d24294ec5c48f3672c3c800136f24d"
+      "baseHash": "5809dbf6ba753657688e76c63f9114c2e0efbfd8"
     },
     {
       "type": "derived",
@@ -132,14 +132,14 @@
       "type": "patch",
       "file": "ReactCommon/Yoga.cpp",
       "baseFile": "packages/react-native/ReactCommon/yoga/yoga/Yoga.cpp",
-      "baseHash": "ac7afe69694e87eef0fbb066843254ca81e35975",
+      "baseHash": "0aa8c33d956464711a4eaf0a311937159d8115c7",
       "issue": 3994
     },
     {
       "type": "copy",
       "directory": "ReactCopies/IntegrationTests",
       "baseDirectory": "IntegrationTests",
-      "baseHash": "acc9ffec863e44024d52ccaafc999a16fd88ec12",
+      "baseHash": "edfffae3bd41f59460368f76486d185fb0b08905",
       "issue": 4054
     },
     {
@@ -376,7 +376,7 @@
       "type": "patch",
       "file": "src/Libraries/Components/View/View.windows.js",
       "baseFile": "packages/react-native/Libraries/Components/View/View.js",
-      "baseHash": "a5ff7c1a8aeb920613c2e39aa00278af7902cfed"
+      "baseHash": "e1e15345be1d7794284bca007299ca5814969983"
     },
     {
       "type": "patch",
@@ -472,7 +472,7 @@
       "type": "patch",
       "file": "src/Libraries/Pressability/Pressability.windows.js",
       "baseFile": "packages/react-native/Libraries/Pressability/Pressability.js",
-      "baseHash": "9b1c05c59ddcf30c6b5938ff8ed26ec7633ebdce",
+      "baseHash": "bdee896f3fa0f42952998101f8c77087c3f7c4bd",
       "issue": 4379
     },
     {
