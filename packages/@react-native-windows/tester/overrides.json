@@ -5,7 +5,11 @@
   "excludePatterns": [
     "src/js/examples-win/**"
   ],
+<<<<<<< HEAD
   "baseVersion": "0.75.0-nightly-20240531-c046198cc",
+=======
+  "baseVersion": "0.75.0-nightly-20240610-ced076210",
+>>>>>>> 5d81068c9220b5a2d3d6441c1c0c24fc4afb555e
   "overrides": [
     {
       "type": "derived",
@@ -67,6 +71,13 @@
       "baseFile": "packages/rn-tester/js/examples/TextInput/TextInputSharedExamples.js",
       "baseHash": "55efb5c3f34963215650859b8a1bf3cbb5fc6f54",
       "issue": 13303
+    },
+    {
+      "type": "patch",
+      "file": "src/js/examples/TurboModule/SampleTurboModuleExample.windows.js",
+      "baseFile": "packages/rn-tester/js/examples/TurboModule/SampleTurboModuleExample.js",
+      "baseHash": "6e532e2e2fab2fd61b864f6ebe64d7725061043d",
+      "issue": 0
     },
     {
       "type": "patch",
