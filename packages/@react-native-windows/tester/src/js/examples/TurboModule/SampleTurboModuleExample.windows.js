@@ -211,8 +211,17 @@ class SampleTurboModuleExample extends React.Component<{||}, State> {
       );
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     /*
     [Windows - Android Only Example
+=======
+    /*[Windows - Android Only Example
+>>>>>>> d6b1eb243c (Edit Turbo Module Example)
+=======
+    /*
+    [Windows - Android Only Example
+>>>>>>> f8a1428405 (Update packages/@react-native-windows/tester/src/js/examples/TurboModule/SampleTurboModuleExample.windows.js)
     // Lazily load the module
     NativeSampleTurboModule.getConstants();
     if (global.__SampleTurboModuleJSIBindings !== 'Hello JSI!') {
@@ -220,8 +229,17 @@ class SampleTurboModuleExample extends React.Component<{||}, State> {
         'The JSI bindings for SampleTurboModule are not installed.',
       );
     }
+<<<<<<< HEAD
+<<<<<<< HEAD
     Windows]
     */
+=======
+    Windows] */
+>>>>>>> d6b1eb243c (Edit Turbo Module Example)
+=======
+    Windows]
+    */
+>>>>>>> 58ea2593ee (Update packages/@react-native-windows/tester/src/js/examples/TurboModule/SampleTurboModuleExample.windows.js)
   }
 
   render(): React.Node {
