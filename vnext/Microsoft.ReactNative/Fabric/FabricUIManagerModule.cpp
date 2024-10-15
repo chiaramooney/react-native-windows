@@ -189,6 +189,12 @@ void FabricUIManager::didMountComponentsWithRootTag(facebook::react::SurfaceId s
     self->m_scheduler->reportMount(surfaceId);
     context.Notifications().SendNotification(NotifyMountedId(), surfaceId);
   });
+#ifdef USE_EXPERIMENTAL_WINUI3
+  // HACKHACK
+  // When using XamlIslands, we need to manually Commit the compositor.
+  // I don't know the best place to do it, but putting this here for now to unblock things.
+  m_compContext.NotifyMountComplete();
+#endif
 }
 
 void FabricUIManager::RCTPerformMountInstructions(

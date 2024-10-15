@@ -161,6 +161,8 @@ namespace Microsoft.ReactNative.Composition.Experimental
       Windows.Graphics.DirectX.DirectXPixelFormat pixelFormat,
       Windows.Graphics.DirectX.DirectXAlphaMode alphaMode);
 
+    void NotifyMountComplete();
+
     // TODO Add and hook up to rootnode - to notify the tree
     // event Windows.Foundation.EventHandler<RenderingDeviceReplacedArgs> RenderingDeviceReplaced;
   }

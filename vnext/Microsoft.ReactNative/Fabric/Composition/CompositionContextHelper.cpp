@@ -24,6 +24,10 @@
 #include <winrt/Microsoft.UI.Composition.interop.h>
 #endif
 
+#ifdef USE_EXPERIMENTAL_WINUI3
+#include <dcomp.h> // To call Commit() on the Compositor.
+#endif
+
 namespace Microsoft::ReactNative::Composition::Experimental {
 
 template <typename TSpriteVisual>
@@ -1761,6 +1765,8 @@ struct CompContext : winrt::implements<
 
   winrt::Microsoft::ReactNative::Composition::Experimental::IFocusVisual CreateFocusVisual() noexcept;
 
+  void NotifyMountComplete() noexcept;
+
   typename TTypeRedirects::CompositionGraphicsDevice CompositionGraphicsDevice() noexcept;
 
   typename TTypeRedirects::Compositor InnerCompositor() const noexcept {
@@ -1823,6 +1829,10 @@ CompContext<WindowsTypeRedirects>::CreateCaretVisual() noexcept {
 winrt::Microsoft::ReactNative::Composition::Experimental::IFocusVisual
 CompContext<WindowsTypeRedirects>::CreateFocusVisual() noexcept {
   return winrt::make<Composition::Experimental::WindowsCompFocusVisual>(m_compositor);
+}
+
+void CompContext<WindowsTypeRedirects>::NotifyMountComplete() noexcept {
+  
 }
 
 template <>
@@ -1898,6 +1908,13 @@ CompContext<MicrosoftTypeRedirects>::CreateCaretVisual() noexcept {
 winrt::Microsoft::ReactNative::Composition::Experimental::IFocusVisual
 CompContext<MicrosoftTypeRedirects>::CreateFocusVisual() noexcept {
   return winrt::make<Composition::Experimental::MicrosoftCompFocusVisual>(m_compositor);
+}
+
+void CompContext<MicrosoftTypeRedirects>::NotifyMountComplete() noexcept {
+#ifdef USE_EXPERIMENTAL_WINUI3
+  auto dcompositionDevice = this->m_compositor.as<IDCompositionDevice>();
+  dcompositionDevice->Commit();
+#endif
 }
 
 template <>

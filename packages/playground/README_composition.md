@@ -31,10 +31,14 @@ Currently the application will run on either lifted composition using WinAppSDK,
 
 You can find several sample .tsx files under the `/playground/samples` folder. You can load any of these files from `file -> Open JavaScript File` in the menu bar at the top of the app.  The `Samples\rntester` javascript file is the main RNTester application provided by react-native, which has been extended with additional test pages.
 
-### Interesting test pages for Islands work
+### XamlIslands bring-up
 
-In the `Samples\rntester` app there are a couple of test pages that host XAML controls within composition.  These are labeled `Fabric Native Component` and `Fabric Native Component Yoga`.  If you run these test pages with lifted composition you will get a "Unimplemented Component" placeholder in place of the XAML island - since Xaml islands are not hostable within lifted composition today.
+XamlIsland support is currently (very) experimental.  To build with XamlIsland support:
+1. In ExperimentalFeatures.props, ensure that UseWinUI3 and UseExperimentalWinUI3 are both set to "true".
+1. In NuGet.Config, ensure you have the source: `https://microsoft.pkgs.visualstudio.com/ProjectReunion/_packaging/WinAppSDK-Developer-Builds/nuget/v3/index.json`
+1. Build as normal.
 
+In the `Samples\rntester` app there are a couple of test pages that host XAML controls within composition.  These are labeled `Fabric Native Component` and `Fabric Native Component Yoga`.  If you run these test pages with lifted composition and with the above instructions, RNW will attempt to create a XamlIsland.  Otherwise you will get a "Unimplemented Component" placeholder in place of the XAML island.
 
 ## How to debug Playground
 
