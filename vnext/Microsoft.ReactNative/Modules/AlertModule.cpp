@@ -220,12 +220,14 @@ void Alert::ProcessPendingAlertRequests() noexcept {
   if (pendingAlerts.empty())
     return;
 
+#ifdef USE_FABRIC
+  // For fabric, Xaml doesn't control all the content, so we need to use MessageDialog
+  ProcessPendingAlertRequestsMessageDialog();
+#else
+  // If we don't have xaml loaded, fallback to using MessageDialog
   if (xaml::TryGetCurrentApplication()) {
     ProcessPendingAlertRequestsXaml();
-  }
-#ifdef USE_FABRIC
-  else {
-    // If we don't have xaml loaded, fallback to using MessageDialog
+  } else {
     ProcessPendingAlertRequestsMessageDialog();
   }
 #endif

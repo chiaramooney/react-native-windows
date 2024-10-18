@@ -120,7 +120,10 @@ struct CustomComponentUserData : winrt::implements<CustomComponentUserData, winr
     // If we are using native layout then wrap the element in a YogaXamlPanel which reports any changes to desired size
     // of the XAML element.
     if (!nativeLayout) {
-      return button;
+      winrt::Microsoft::UI::Xaml::Controls::Grid g{};
+      g.Background(winrt::Microsoft::UI::Xaml::Media::SolidColorBrush({255, 124, 124, 255}));
+      g.Children().Append(button);
+      return g;
     }
 
     auto yogaXamlPanel = winrt::make<winrt::PlaygroundApp::implementation::YogaXamlPanel>(

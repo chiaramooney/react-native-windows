@@ -36,14 +36,7 @@ const NativeComponentWithYogaExample = () => {
       <CustomXamlComponentWithYogaLayout
         label="This is a Xaml Button set to ellipisify on truncation"
         style={{flex: 1, minWidth: 100}}
-        onMyEvent={arg => {
-          setLog(
-            log +
-              '\nRecieved MyEvent: ' +
-              JSON.stringify(arg.nativeEvent) +
-              '\n',
-          );
-        }}
+        onMyEvent={(arg) => {}}
       />
       <View style={{width: 100, height: 100, backgroundColor: 'green'}} />
       <View style={{width: 100, height: 100, backgroundColor: 'red'}} />
