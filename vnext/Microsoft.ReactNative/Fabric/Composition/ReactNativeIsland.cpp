@@ -37,6 +37,10 @@
 #include <winrt/Microsoft.UI.Input.h>
 #endif
 
+#ifdef USE_EXPERIMENTAL_WINUI3
+#include <dcomp.h> // To call Commit() on the Compositor.
+#endif
+
 namespace winrt::Microsoft::ReactNative::implementation {
 
 constexpr float loadingActivitySize = 12.0f;
@@ -694,6 +698,12 @@ void ReactNativeIsland::ShowInstanceLoading() noexcept {
   UpdateLoadingVisualSize();
 
   InternalRootVisual().InsertAt(m_loadingVisual, m_hasRenderedVisual ? 1 : 0);
+
+#ifdef USE_EXPERIMENTAL_WINUI3
+  auto dcompositionDevice = this->m_compositor.as<IDCompositionDevice>();
+  dcompositionDevice->Commit();
+#endif
+
 }
 
 void ReactNativeIsland::InitTextScaleMultiplier() noexcept {
