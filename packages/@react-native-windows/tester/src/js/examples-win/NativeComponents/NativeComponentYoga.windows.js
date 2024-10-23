@@ -26,23 +26,15 @@ const NativeComponentWithYogaExample = () => {
         flexDirection: 'row',
         gap: 5,
       }}>
-      <View style={{width: 100, height: 100, backgroundColor: 'green'}} />
-      <View style={{width: 100, height: 100, backgroundColor: 'red'}} />
-      <View style={{width: 100, height: 100, backgroundColor: 'blue'}} />
-      <View style={{width: 100, height: 100, backgroundColor: 'pink'}} />
-      <View style={{width: 100, height: 100, backgroundColor: 'gray'}} />
-      <Text style={{color: 'gray'}}>This is RN Text</Text>
+      <View style={{width: 400, height: 400, backgroundColor: 'green'}} />
       <Text style={{color: 'red'}}>{log}</Text>
       <CustomXamlComponentWithYogaLayout
         label="This is a Xaml Button set to ellipisify on truncation"
-        style={{flex: 1, minWidth: 100}}
+        style={{flex: 1, minWidth: 400}}
         onMyEvent={(arg) => {}}
       />
-      <View style={{width: 100, height: 100, backgroundColor: 'green'}} />
-      <View style={{width: 100, height: 100, backgroundColor: 'red'}} />
-      <View style={{width: 100, height: 100, backgroundColor: 'blue'}} />
-      <View style={{width: 100, height: 100, backgroundColor: 'pink'}} />
-      <View style={{width: 100, height: 100, backgroundColor: 'gray'}} />
+      <View style={{width: 400, height: 400, backgroundColor: 'green'}} />
+
     </View>
   );
 };
