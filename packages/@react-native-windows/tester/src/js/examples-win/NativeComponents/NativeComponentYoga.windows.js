@@ -48,7 +48,7 @@ const NativeComponentWithYogaExample = () => {
 exports.displayName = 'NativeFabricComponentYoga';
 exports.framework = 'React';
 exports.category = 'UI';
-exports.title = 'Fabric Native Component Yoga';
+exports.title = 'Fabric Native Component Yoga -- and a CalendarView';
 //exports.documentationURL = 'https://reactnative.dev/docs/button';
 exports.description =
   'Sample Fabric Native Component that places native XAML inside a container sized by yoga';

@@ -26,6 +26,8 @@ type NativeProps = $ReadOnly<{|
   // Props
   label: string,
 
+  xamlString: string,
+
   // Events
   onMyEvent?: ?DirectEventHandler<MyEventEvent>,
 |}>;

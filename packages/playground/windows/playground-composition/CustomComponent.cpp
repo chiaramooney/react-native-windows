@@ -8,6 +8,7 @@
 #include <winrt/Microsoft.UI.Content.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
 #include <winrt/Microsoft.UI.Xaml.Controls.h>
+#include <winrt/Microsoft.UI.Xaml.Markup.h>
 #include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <winrt/Microsoft.UI.Xaml.h>
 #include <winrt/Microsoft.UI.interop.h>
@@ -42,6 +43,10 @@ struct CustomXamlComponentProps
 
   REACT_FIELD(label);
   winrt::hstring label;
+
+  REACT_FIELD(xamlString);
+  winrt::hstring xamlString;
+
   winrt::Microsoft::ReactNative::ViewProps m_props;
 };
 
@@ -85,9 +90,24 @@ struct CustomComponentUserData : winrt::implements<CustomComponentUserData, winr
     islandView;
 #ifdef USE_EXPERIMENTAL_WINUI3
     m_xamlIsland = winrt::Microsoft::UI::Xaml::XamlIsland{};
-    m_xamlIsland.Content(CreateXamlButtonContent(nativeLayout));
+    //m_xamlIsland.Content(CreateXamlButtonContent(nativeLayout));
     islandView.Connect(m_xamlIsland.ContentIsland());
 #endif
+  }
+
+  void UpdateXamlContent()
+  {
+    const wchar_t *prefix = L"<Grid xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'>";
+    const wchar_t *postfix = L"</Grid>";
+
+    std::wstring xaml;
+    xaml.append(prefix);
+    xaml.append(m_xamlString.c_str());
+    xaml.append(postfix);
+
+    // winrt::Microsoft::UI::Xaml::Markup::XamlReader::Load(m_xaml);
+    auto newElement = winrt::Microsoft::UI::Xaml::Markup::XamlReader::Load(xaml.c_str());
+    m_xamlIsland.Content(newElement.as<winrt::Microsoft::UI::Xaml::UIElement>());
   }
 
   void PropsChanged(
@@ -96,8 +116,12 @@ struct CustomComponentUserData : winrt::implements<CustomComponentUserData, winr
       const winrt::Microsoft::ReactNative::IComponentProps & /*oldProps*/) {
     auto myProps = newProps.as<CustomXamlComponentProps>();
 #ifdef USE_EXPERIMENTAL_WINUI3
-    m_buttonLabelTextBlock.Text(myProps->label);
+    if (wcscmp(m_xamlString.c_str(), myProps->xamlString.c_str()) != 0) {
+      m_xamlString = myProps->xamlString;
+      UpdateXamlContent();
+    }
 #endif
+
   }
 
   void FinalizeUpdates() noexcept {
@@ -121,9 +145,9 @@ struct CustomComponentUserData : winrt::implements<CustomComponentUserData, winr
     // of the XAML element.
     if (!nativeLayout) {
       winrt::Microsoft::UI::Xaml::Controls::Grid grid{};
-      grid.Background(winrt::Microsoft::UI::Xaml::Media::SolidColorBrush({255, 124, 124, 255}));
+      //grid.Background(winrt::Microsoft::UI::Xaml::Media::SolidColorBrush({255, 124, 124, 255}));
       
-      grid.Children().Append(button);
+      //grid.Children().Append(button);
 
       // winrt::Microsoft::UI::Xaml::Controls::CalendarView cv{};
       //grid.Children().Append(cv);
@@ -235,6 +259,7 @@ struct CustomComponentUserData : winrt::implements<CustomComponentUserData, winr
   }
 
  private:
+  winrt::hstring m_xamlString;
   winrt::Microsoft::UI::Xaml::Controls::TextBlock m_buttonLabelTextBlock{nullptr};
   winrt::Microsoft::ReactNative::IComponentState m_state;
   std::unique_ptr<CustomXamlComponentEventEmitter> m_eventEmitter{nullptr};
