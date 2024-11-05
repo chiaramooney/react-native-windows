@@ -19,15 +19,15 @@ const XamlContentExample = () => {
   let [log, setLog] = useState('');
 
   let colorPickerXaml = '<ColorPicker ColorSpectrumShape="Box" IsMoreButtonVisible="False" IsColorSliderVisible="True" IsColorChannelTextInputVisible="True" IsHexInputVisible="True" IsAlphaEnabled="False" IsAlphaSliderVisible="True" IsAlphaTextInputVisible="True" />'
+  let datePickerXaml = '<DatePicker />'
 
   return (
     <ScrollView>
     <View
       style={{
-        borderRadius: 0,
-        margin: 10,
+        margin: 20,
         flexDirection: 'column',
-        gap: 5,
+        gap: 10,
       }}>
 
       <Text>Xaml CalendarView control:</Text>
@@ -39,7 +39,6 @@ const XamlContentExample = () => {
       <CustomXamlComponentWithYogaLayout
         xamlString={colorPickerXaml}
         style={{flex: 1, width: 400, height: 400, minWidth: 400, minHeight: 400}}
-        onMyEvent={(arg) => {}}
       />
 
     </View>

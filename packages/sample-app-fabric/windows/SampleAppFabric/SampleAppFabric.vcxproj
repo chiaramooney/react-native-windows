@@ -13,6 +13,8 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <MinimumVisualStudioVersion>17.0</MinimumVisualStudioVersion>
     <AppxPackage>false</AppxPackage>
+    <!-- Island-support: Needed to generate App.xaml.g.h (e.g. pulls in Microsoft.Cpp.AppContainerApplication.props) -->
+    <ApplicationType>Windows Store</ApplicationType>
   </PropertyGroup>
   <PropertyGroup Label="ReactNativeWindowsProps">
     <ReactNativeWindowsDir Condition="'$(ReactNativeWindowsDir)' == ''">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), 'node_modules\react-native-windows\package.json'))\node_modules\react-native-windows\</ReactNativeWindowsDir>
@@ -95,6 +97,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions Condition="'$(UseFabric)'=='true'">USE_FABRIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdcpp17</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <PropertyGroup Label="UserMacros" />
@@ -116,9 +119,25 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Create</PrecompiledHeader>
     </ClCompile>
+    <!-- Island-support: This generated file implements some activation factories -->
+    <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="App.xaml.cpp">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SampleAppFabric.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Island-support: Needed to run Markup Compiler on App.xaml and make the generated files -->
+    <ApplicationDefinition Include="App.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="App.idl">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
   </ItemGroup>
   <ItemGroup>
     <Image Include="SampleAppFabric.ico" />
@@ -128,8 +147,6 @@
   <ImportGroup Label="ReactNativeWindowsTargets">
     <Import Project="$(ReactNativeWindowsDir)\PropertySheets\External\Microsoft.ReactNative.Composition.CppApp.targets" Condition="Exists('$(ReactNativeWindowsDir)\PropertySheets\External\Microsoft.ReactNative.Composition.CppApp.targets')" />
   </ImportGroup>
-  <ItemGroup>
-  </ItemGroup>
   <Target Name="EnsureReactNativeWindowsTargets" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references targets in your node_modules\react-native-windows folder. The missing file is {0}.</ErrorText>

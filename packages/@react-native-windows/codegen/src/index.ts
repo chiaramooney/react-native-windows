@@ -301,7 +301,7 @@ export function generate(
     moduleGenerators.push(generateNM2);
   }
 
-  if (modulesCxx) {
+  if (modulesCxx) { 
     moduleGenerators.push(generateJsiModuleH);
     moduleGenerators.push(generateJsiModuleCpp);
   }
