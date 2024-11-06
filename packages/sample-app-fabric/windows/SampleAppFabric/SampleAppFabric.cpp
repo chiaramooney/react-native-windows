@@ -20,7 +20,14 @@
 REACT_STRUCT(CustomXamlComponentProps)
 struct CustomXamlComponentProps
     : winrt::implements<CustomXamlComponentProps, winrt::Microsoft::ReactNative::IComponentProps> {
-  CustomXamlComponentProps(winrt::Microsoft::ReactNative::ViewProps props) : m_props(props) {}
+  CustomXamlComponentProps(
+      winrt::Microsoft::ReactNative::ViewProps props,
+      const winrt::Microsoft::ReactNative::IComponentProps &cloneFrom)
+      : ViewProps(props) {
+    if (cloneFrom) {
+      auto cloneFromProps = cloneFrom.as<CustomXamlComponentProps>();
+    }
+  }
 
   void SetProp(uint32_t hash, winrt::hstring propName, winrt::Microsoft::ReactNative::IJSValueReader value) noexcept {
     winrt::Microsoft::ReactNative::ReadProp(hash, propName, value, *this);
@@ -32,7 +39,7 @@ struct CustomXamlComponentProps
   REACT_FIELD(xamlString);
   winrt::hstring xamlString;
 
-  winrt::Microsoft::ReactNative::ViewProps m_props;
+  const winrt::Microsoft::ReactNative::ViewProps ViewProps;
 };
 
 struct XamlCalendarComponent : winrt::implements<XamlCalendarComponent, winrt::IInspectable> {
@@ -53,8 +60,9 @@ struct XamlCalendarComponent : winrt::implements<XamlCalendarComponent, winrt::I
 
   static void ConfigureBuilderForCustomComponent(
       winrt::Microsoft::ReactNative::IReactViewComponentBuilder const &builder) {
-    builder.SetCreateProps([](winrt::Microsoft::ReactNative::ViewProps props) noexcept {
-      return winrt::make<CustomXamlComponentProps>(props);
+    builder.SetCreateProps([](winrt::Microsoft::ReactNative::ViewProps props,
+                              const winrt::Microsoft::ReactNative::IComponentProps &cloneFrom) noexcept {
+      return winrt::make<CustomXamlComponentProps>(props, cloneFrom);
     });
 
     builder.SetFinalizeUpdateHandler([](const winrt::Microsoft::ReactNative::ComponentView &source,
@@ -143,13 +151,12 @@ _Use_decl_annotations_ int CALLBACK WinMain(HINSTANCE instance, HINSTANCE, PSTR 
   builder.SetDispatcherQueueController(dqc);
   builder.SetCompositor(compositor);
 
-  
   auto timer = dqc.DispatcherQueue().CreateTimer();
   timer.Interval(std::chrono::milliseconds(16));
-  timer.Tick([compositor](auto&&, auto&&) {
-      auto dcompDevice = compositor.as<IDCompositionDevice>();
+  timer.Tick([compositor](auto &&, auto &&) {
+    auto dcompDevice = compositor.as<IDCompositionDevice>();
     dcompDevice->Commit();
-      });
+  });
   timer.Start();
 
   auto reactNativeWin32App{builder.Build()};
