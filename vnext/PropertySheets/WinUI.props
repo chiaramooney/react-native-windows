@@ -7,7 +7,9 @@
       For local testing of internal versions, modify the WinUI3Version, and comment out the addition nuget source in NuGet.Config
     -->
     <!-- This value is also used by the CLI, see /packages/@react-native-windows/generate-windows -->
-    <WinUI3Version Condition="'$(WinUI3Version)'=='' AND '$(UseExperimentalWinUI3)'=='true'">999.0.0-mock-10.20.1-x64-Debug</WinUI3Version>
+    <WinUI3Version Condition="'$(WinUI3Version)'=='' AND '$(UseExperimentalWinUI3)'=='true'">1.7.241010005-experimental1</WinUI3Version>
+    
+    <!-- These are needed if we're pulling in a "mock" package for developer builds -->
     <WindowsAppSdkMockCheck>false</WindowsAppSdkMockCheck>
     <WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
      
