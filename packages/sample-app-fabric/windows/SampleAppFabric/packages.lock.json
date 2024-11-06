@@ -57,13 +57,8 @@
       },
       "Microsoft.Web.WebView2": {
         "type": "Transitive",
-<<<<<<< HEAD
-        "resolved": "1.0.2651.64",
-        "contentHash": "f5sc/vcAoTCTEW7Nqzp4galAuTRguZViw8ksn+Nx2uskEBPm0/ubzy6gVjvXS/P96jLS89C8T9I0hPc417xpNg=="
-=======
         "resolved": "1.0.2792.45",
         "contentHash": "KOlLJSq70OySfU8mdhWdh9iOyApazWsIb6CmSz+YTJ5MmwLcsCLMW0qemORo7Si3A7VhLDIH3jwpMhPxodfkuA=="
->>>>>>> f65cbd5fb (Make the SampleAppFabric work)
       },
       "Microsoft.Windows.SDK.BuildTools": {
         "type": "Transitive",
@@ -82,8 +77,8 @@
       "folly": {
         "type": "Project",
         "dependencies": {
-          "Fmt": "[1.0.0, )",
-          "boost": "[1.83.0, )"
+          "boost": "[1.83.0, )",
+          "fmt": "[1.0.0, )"
         }
       },
       "microsoft.reactnative": {
@@ -93,11 +88,7 @@
           "Folly": "[1.0.0, )",
           "Microsoft.JavaScript.Hermes": "[0.1.23, )",
           "Microsoft.SourceLink.GitHub": "[1.1.1, )",
-<<<<<<< HEAD
-          "Microsoft.WindowsAppSDK": "[1.6.240923002, )",
-=======
           "Microsoft.WindowsAppSDK": "[999.0.0-mock-10.20.1-x64-Debug, )",
->>>>>>> f65cbd5fb (Make the SampleAppFabric work)
           "ReactCommon": "[1.0.0, )",
           "boost": "[1.83.0, )"
         }
@@ -109,101 +100,6 @@
           "boost": "[1.83.0, )"
         }
       }
-<<<<<<< HEAD
-    },
-    "native,Version=v0.0/win": {
-      "Microsoft.VCRTForwarders.140": {
-        "type": "Direct",
-        "requested": "[1.0.2-rc, )",
-        "resolved": "1.0.2-rc",
-        "contentHash": "/r+sjtEeCIGyDhobIZ5hSmYhC/dSyGZxf1SxYJpElUhB0LMCktOMFs9gXrauXypIFECpVynNyVjAmJt6hjJ5oQ=="
-      },
-      "Microsoft.WindowsAppSDK": {
-        "type": "Direct",
-        "requested": "[1.6.240923002, )",
-        "resolved": "1.6.240923002",
-        "contentHash": "7PfOz2scXU+AAM/GYge+f6s7k3DVI+R1P8MNPZQr56GOPCGw+csvcg3S5KZg47z/o04kNvWH3GKtWT1ML9tpZw==",
-        "dependencies": {
-          "Microsoft.Web.WebView2": "1.0.2651.64",
-          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756"
-        }
-      },
-      "Microsoft.Web.WebView2": {
-        "type": "Transitive",
-        "resolved": "1.0.2651.64",
-        "contentHash": "f5sc/vcAoTCTEW7Nqzp4galAuTRguZViw8ksn+Nx2uskEBPm0/ubzy6gVjvXS/P96jLS89C8T9I0hPc417xpNg=="
-      }
-    },
-    "native,Version=v0.0/win-arm64": {
-      "Microsoft.VCRTForwarders.140": {
-        "type": "Direct",
-        "requested": "[1.0.2-rc, )",
-        "resolved": "1.0.2-rc",
-        "contentHash": "/r+sjtEeCIGyDhobIZ5hSmYhC/dSyGZxf1SxYJpElUhB0LMCktOMFs9gXrauXypIFECpVynNyVjAmJt6hjJ5oQ=="
-      },
-      "Microsoft.WindowsAppSDK": {
-        "type": "Direct",
-        "requested": "[1.6.240923002, )",
-        "resolved": "1.6.240923002",
-        "contentHash": "7PfOz2scXU+AAM/GYge+f6s7k3DVI+R1P8MNPZQr56GOPCGw+csvcg3S5KZg47z/o04kNvWH3GKtWT1ML9tpZw==",
-        "dependencies": {
-          "Microsoft.Web.WebView2": "1.0.2651.64",
-          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756"
-        }
-      },
-      "Microsoft.Web.WebView2": {
-        "type": "Transitive",
-        "resolved": "1.0.2651.64",
-        "contentHash": "f5sc/vcAoTCTEW7Nqzp4galAuTRguZViw8ksn+Nx2uskEBPm0/ubzy6gVjvXS/P96jLS89C8T9I0hPc417xpNg=="
-      }
-    },
-    "native,Version=v0.0/win-x64": {
-      "Microsoft.VCRTForwarders.140": {
-        "type": "Direct",
-        "requested": "[1.0.2-rc, )",
-        "resolved": "1.0.2-rc",
-        "contentHash": "/r+sjtEeCIGyDhobIZ5hSmYhC/dSyGZxf1SxYJpElUhB0LMCktOMFs9gXrauXypIFECpVynNyVjAmJt6hjJ5oQ=="
-      },
-      "Microsoft.WindowsAppSDK": {
-        "type": "Direct",
-        "requested": "[1.6.240923002, )",
-        "resolved": "1.6.240923002",
-        "contentHash": "7PfOz2scXU+AAM/GYge+f6s7k3DVI+R1P8MNPZQr56GOPCGw+csvcg3S5KZg47z/o04kNvWH3GKtWT1ML9tpZw==",
-        "dependencies": {
-          "Microsoft.Web.WebView2": "1.0.2651.64",
-          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756"
-        }
-      },
-      "Microsoft.Web.WebView2": {
-        "type": "Transitive",
-        "resolved": "1.0.2651.64",
-        "contentHash": "f5sc/vcAoTCTEW7Nqzp4galAuTRguZViw8ksn+Nx2uskEBPm0/ubzy6gVjvXS/P96jLS89C8T9I0hPc417xpNg=="
-      }
-    },
-    "native,Version=v0.0/win-x86": {
-      "Microsoft.VCRTForwarders.140": {
-        "type": "Direct",
-        "requested": "[1.0.2-rc, )",
-        "resolved": "1.0.2-rc",
-        "contentHash": "/r+sjtEeCIGyDhobIZ5hSmYhC/dSyGZxf1SxYJpElUhB0LMCktOMFs9gXrauXypIFECpVynNyVjAmJt6hjJ5oQ=="
-      },
-      "Microsoft.WindowsAppSDK": {
-        "type": "Direct",
-        "requested": "[1.6.240923002, )",
-        "resolved": "1.6.240923002",
-        "contentHash": "7PfOz2scXU+AAM/GYge+f6s7k3DVI+R1P8MNPZQr56GOPCGw+csvcg3S5KZg47z/o04kNvWH3GKtWT1ML9tpZw==",
-        "dependencies": {
-          "Microsoft.Web.WebView2": "1.0.2651.64",
-          "Microsoft.Windows.SDK.BuildTools": "10.0.22621.756"
-        }
-      },
-      "Microsoft.Web.WebView2": {
-        "type": "Transitive",
-        "resolved": "1.0.2651.64",
-        "contentHash": "f5sc/vcAoTCTEW7Nqzp4galAuTRguZViw8ksn+Nx2uskEBPm0/ubzy6gVjvXS/P96jLS89C8T9I0hPc417xpNg=="
-      }
-=======
->>>>>>> f65cbd5fb (Make the SampleAppFabric work)
     }
   }
 }
