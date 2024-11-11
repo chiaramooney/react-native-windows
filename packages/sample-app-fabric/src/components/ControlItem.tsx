@@ -80,7 +80,7 @@ const HomeComponentTile = ({item, navigation}: HomeComponentTileProps) => {
   const [isPressing, setIsPressing] = React.useState(false);
   const colors = {};
   const styles = createStyles(colors, isHovered, isPressing);
-  const { showHome, setShowHome } = React.useContext(AppContext);
+  const { showScreen, setShowScreen } = React.useContext(AppContext);
 
   // Workaround for accessibility label requirements:
   // 'The Name must not include the same text as the LocalizedControlType.'
@@ -105,7 +105,7 @@ const HomeComponentTile = ({item, navigation}: HomeComponentTileProps) => {
       style={styles.controlItem}
       onPress={() => {
         //navigation.navigate(item.key);
-        setShowHome(false);
+        setShowScreen(item.key);
       }}
       onPressIn={() => setIsPressing(true)}
       onPressOut={() => setIsPressing(false)}

@@ -8,7 +8,7 @@ import {ButtonExamplePage} from './examples/ButtonExamplePage';
 //import {CheckBoxExamplePage} from './examples/CheckBoxExamplePage';
 //import {ClipboardExamplePage} from './examples/ClipboardExamplePage';
 //import {ConfigExamplePage} from './examples/ConfigExamplePage';
-import {DatePickerExamplePage} from './examples/DatePickerExamplePage';
+import {CalendarViewExamplePage} from './examples/CalendarViewExamplePage';
 //import {TimePickerExamplePage} from './examples/TimePickerExamplePage';
 //import {SketchExamplePage} from './examples/SketchExamplePage';
 //import {SliderExamplePage} from './examples/SliderExamplePage';
@@ -122,8 +122,8 @@ export const RNGalleryList: Array<IRNGalleryExample> = [
     type: 'Status and Info',
   },*/
   {
-    key: 'DatePicker',
-    component: DatePickerExamplePage,
+    key: 'CalendarView',
+    component: CalendarViewExamplePage,
     textIcon: '\uE787',
     imageIcon: require('../assets/ControlImages/DatePicker.png'),
     subtitle: 'A control that lets a user pick a date value.',

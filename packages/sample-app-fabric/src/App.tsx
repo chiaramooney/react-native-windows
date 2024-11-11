@@ -26,7 +26,8 @@ import {PlatformColor} from 'react-native';
 //import useHighContrastState from './hooks/useHighContrastState';
 //import { ButtonExamplePage } from './examples/ButtonExamplePage';
 import {HomePage} from './HomePage';
-import { DatePickerExamplePage } from './examples/DatePickerExamplePage';
+import { CalendarViewExamplePage } from './examples/CalendarViewExamplePage';
+import { TextExamplePage } from './examples/TextExamplePage';
 import AppContext from './AppContext';
 
 const styles = StyleSheet.create({
@@ -352,11 +353,11 @@ export default function App() {
   //const theme = rawtheme === 'system' ? colorScheme! : rawtheme;
 
   //const isHighContrast = useHighContrastState();
-  const [showHome, setShowHome] = React.useState(true);
+  const [showScreen, setShowScreen] = React.useState('Home');
 
   return (
-    <AppContext.Provider value={{showHome, setShowHome}}>
-      {showHome ? <HomePage/> : <DatePickerExamplePage/>}
+    <AppContext.Provider value={{showScreen, setShowScreen}}>
+      {showScreen === 'Home' ? <HomePage/> : showScreen === 'CalendarView' ? <CalendarViewExamplePage/> : <TextExamplePage/>}
     </AppContext.Provider>
   );
 }

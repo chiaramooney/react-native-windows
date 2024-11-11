@@ -17,10 +17,10 @@ const createStyles = (colorScheme, isBackPressing) =>
       flexDirection: 'row',
       width: '100%',
       height: '100%',
-      backgroundColor: '#f9f9f9',
+      backgroundColor: '#eef4f9',
     },
     navBar: {
-      backgroundColor: '#f3f3f3',
+      backgroundColor: '#eef4f9',
       width: 48,
       height: '100%',
       paddingBottom: 20,
@@ -33,6 +33,7 @@ const createStyles = (colorScheme, isBackPressing) =>
       borderTopLeftRadius: 8,
       borderColor: '#eaeaea',
       borderLeftWidth: 1,
+      backgroundColor: '#f9f9f9',
     },
     insetNavItem: {
       paddingLeft: 36,
@@ -72,7 +73,7 @@ export function ScreenWrapper({
   const colorScheme = {};
   const [isBackPressing, setIsBackPressing] = React.useState(false);
   const styles = createStyles(colorScheme, isBackPressing);
-  const { showHome, setShowHome } = React.useContext(AppContext);
+  const { showScreen, setShowScreen } = React.useContext(AppContext);
 
   return (
     <View style={styles.container}>
@@ -105,7 +106,7 @@ export function ScreenWrapper({
         </View>
       </Pressable>
       <View style={[styles.navItem, doNotInset ? {} : styles.insetNavItem]}>
-        {!showHome ? (<Pressable style={styles.back} onPress={()=>{setShowHome(true)}} onPressIn={() => setIsBackPressing(true)} onPressOut={() => setIsBackPressing(false)}>
+        {showScreen !== 'Home' ? (<Pressable style={styles.back} onPress={()=>{setShowScreen('Home')}} onPressIn={() => setIsBackPressing(true)} onPressOut={() => setIsBackPressing(false)}>
           <Text style={styles.backIcon}>&#xE72B;</Text>
         </Pressable>) : <View/>}
         {children}

@@ -205,6 +205,7 @@ _Use_decl_annotations_ int CALLBACK WinMain(HINSTANCE instance, HINSTANCE, PSTR 
   auto appWindow{reactNativeWin32App.AppWindow()};
   appWindow.Title(L"React Native Gallery");
   appWindow.Resize({1000, 1000});
+  //appWindow.SetIcon("C:/Users/chiaramooney/react-native-windows/packages/sample-app-fabric/windows/SampleAppFabric.Package/Images/Square150x150Logo.scale-200.ico");
 
   // Get the ReactViewOptions so we can set the initial RN component to load
   auto viewOptions{reactNativeWin32App.ReactViewOptions()};
