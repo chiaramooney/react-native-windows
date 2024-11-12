@@ -42,13 +42,48 @@ struct CustomXamlComponentProps
   const winrt::Microsoft::ReactNative::ViewProps ViewProps;
 };
 
+// Should be codegen'd
+REACT_STRUCT(OnSelectedDatesChanged)
+struct OnSelectedDatesChanged {
+  REACT_FIELD(value)
+  bool value{false};
+
+  REACT_FIELD(target)
+  int32_t target{1};
+};
+
+// Should be codegen'd
+struct CustomXamlComponentEventEmitter {
+  CustomXamlComponentEventEmitter(const winrt::Microsoft::ReactNative::EventEmitter &eventEmitter)
+      : m_eventEmitter(eventEmitter) {}
+
+  void onMyEvent(OnSelectedDatesChanged &value) const {
+    m_eventEmitter.DispatchEvent(L"SelectedDatesChanged", [value](const winrt::Microsoft::ReactNative::IJSValueWriter writer) {
+      winrt::Microsoft::ReactNative::WriteValue(writer, value);
+    });
+
+  }
+
+ private:
+  winrt::Microsoft::ReactNative::EventEmitter m_eventEmitter{nullptr};
+};
+
+
 struct XamlCalendarComponent : winrt::implements<XamlCalendarComponent, winrt::IInspectable> {
   void Initialize(const winrt::Microsoft::ReactNative::Composition::ContentIslandComponentView &islandView) {
     m_xamlIsland = winrt::Microsoft::UI::Xaml::XamlIsland{};
 
-    winrt::Microsoft::UI::Xaml::Controls::CalendarView cv{};
-    m_xamlIsland.Content(cv);
+    m_calendarView = winrt::Microsoft::UI::Xaml::Controls::CalendarView{};
+    m_xamlIsland.Content(m_calendarView);
     islandView.Connect(m_xamlIsland.ContentIsland());
+
+    m_calendarView.SelectedDatesChanged([this](auto &&, auto&&) {
+          if (m_eventEmitter) {
+            OnSelectedDatesChanged args;
+            args.value = false;
+            m_eventEmitter->onMyEvent(args);
+          }
+        });
   }
 
   void PropsChanged(
@@ -56,7 +91,14 @@ struct XamlCalendarComponent : winrt::implements<XamlCalendarComponent, winrt::I
       const winrt::Microsoft::ReactNative::IComponentProps & /*newProps*/,
       const winrt::Microsoft::ReactNative::IComponentProps & /*oldProps*/) {}
 
-  void FinalizeUpdates() noexcept {}
+   void FinalizeUpdates() noexcept {
+    /*
+    if (m_eventEmitter) {
+      OnSelectedDatesChanged args;
+      args.value = false;
+      m_eventEmitter->onMyEvent(args);
+    }*/
+  }
 
   static void ConfigureBuilderForCustomComponent(
       winrt::Microsoft::ReactNative::IReactViewComponentBuilder const &builder) {
@@ -90,6 +132,7 @@ struct XamlCalendarComponent : winrt::implements<XamlCalendarComponent, winrt::I
                                             const winrt::Microsoft::ReactNative::EventEmitter &eventEmitter) {
       auto senderIslandView = source.as<winrt::Microsoft::ReactNative::Composition::ContentIslandComponentView>();
       auto userData = senderIslandView.UserData().as<XamlCalendarComponent>();
+      userData->m_eventEmitter = std::make_unique<CustomXamlComponentEventEmitter>(eventEmitter);
     });
 
     builder.SetUpdatePropsHandler([](const winrt::Microsoft::ReactNative::ComponentView &source,
@@ -112,6 +155,8 @@ struct XamlCalendarComponent : winrt::implements<XamlCalendarComponent, winrt::I
   winrt::Microsoft::UI::Xaml::Controls::TextBlock m_buttonLabelTextBlock{nullptr};
   winrt::Microsoft::ReactNative::IComponentState m_state;
   winrt::Microsoft::UI::Xaml::XamlIsland m_xamlIsland{nullptr};
+  winrt::Microsoft::UI::Xaml::Controls::CalendarView m_calendarView{nullptr};
+  std::unique_ptr<CustomXamlComponentEventEmitter> m_eventEmitter{nullptr};
 };
 
 // A PackageProvider containing any turbo modules you define within this app project
