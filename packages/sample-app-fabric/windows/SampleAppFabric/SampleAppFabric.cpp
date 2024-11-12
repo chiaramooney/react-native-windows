@@ -15,6 +15,10 @@
 
 #include <dcomp.h>
 
+#include <ctime>
+#include <iomanip>
+#include <strsafe.h>
+
 #include "App.xaml.h"
 
 REACT_STRUCT(CustomXamlComponentProps)
@@ -50,6 +54,9 @@ struct OnSelectedDatesChanged {
 
   REACT_FIELD(target)
   int32_t target{1};
+
+  REACT_FIELD(startDate)
+  winrt::hstring startDate;
 };
 
 // Should be codegen'd
@@ -81,6 +88,24 @@ struct XamlCalendarComponent : winrt::implements<XamlCalendarComponent, winrt::I
           if (m_eventEmitter) {
             OnSelectedDatesChanged args;
             args.value = false;
+
+            auto selectedDate = m_calendarView.SelectedDates().GetAt(0);
+            auto tt = winrt::clock::to_time_t(selectedDate);
+
+            tm local{};
+            localtime_s(&local, &tt);
+            auto timeStr = std::put_time(&local, "%F");
+
+            wchar_t buffer[100];
+            ::StringCchPrintf(
+                buffer,
+                ARRAYSIZE(buffer),
+                L"%d / %d / %d",
+                timeStr._Tptr->tm_mon + 1,
+                timeStr._Tptr->tm_mday,
+                timeStr._Tptr->tm_year + 1900);
+
+            args.startDate = winrt::hstring(buffer);
             m_eventEmitter->onMyEvent(args);
           }
         });
@@ -92,12 +117,6 @@ struct XamlCalendarComponent : winrt::implements<XamlCalendarComponent, winrt::I
       const winrt::Microsoft::ReactNative::IComponentProps & /*oldProps*/) {}
 
    void FinalizeUpdates() noexcept {
-    /*
-    if (m_eventEmitter) {
-      OnSelectedDatesChanged args;
-      args.value = false;
-      m_eventEmitter->onMyEvent(args);
-    }*/
   }
 
   static void ConfigureBuilderForCustomComponent(
@@ -167,7 +186,7 @@ struct CompReactPackageProvider
     AddAttributedModules(packageBuilder, true);
 
     packageBuilder.as<winrt::Microsoft::ReactNative::IReactPackageBuilderFabric>().AddViewComponent(
-        L"XamlCalendarView", [](winrt::Microsoft::ReactNative::IReactViewComponentBuilder const &builder) noexcept {
+        L"CalendarView", [](winrt::Microsoft::ReactNative::IReactViewComponentBuilder const &builder) noexcept {
           XamlCalendarComponent::ConfigureBuilderForCustomComponent(builder);
         });
   }

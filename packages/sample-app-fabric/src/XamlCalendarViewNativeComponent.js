@@ -15,9 +15,10 @@ import type {HostComponent} from 'react-native/Libraries/Renderer/shims/ReactNat
 import type {DirectEventHandler} from 'react-native/Libraries/Types/CodegenTypes';
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
 
-type MyEventEvent = $ReadOnly<{|
+type SelectedDatesChangedEvent = $ReadOnly<{|
   value: boolean,
   target: Int32,
+  startDate: string,
 |}>;
 
 type NativeProps = $ReadOnly<{|
@@ -27,11 +28,12 @@ type NativeProps = $ReadOnly<{|
   label: string,
 
   // Events
-  onMyEvent?: ?DirectEventHandler<MyEventEvent>,
+
+  onSelectedDatesChanged?: ?DirectEventHandler<SelectedDatesChangedEvent>,
 |}>;
 
 type ComponentType = HostComponent<NativeProps>;
 
 export default (codegenNativeComponent<NativeProps>(
-  'XamlCalendarView',
+  'CalendarView',
 ): ComponentType);
