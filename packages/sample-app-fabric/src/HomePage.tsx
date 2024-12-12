@@ -5,15 +5,12 @@ import {
   Text,
   ScrollView,
   Image,
-  useColorScheme,
 } from 'react-native';
 import React from 'react';
-//import {useTheme, useIsFocused} from '@react-navigation/native';
 import RNGalleryList from './RNGalleryList';
 import {ScreenWrapper} from './components/ScreenWrapper';
 import {TileGallery} from './components/TileGallery';
 import {ListOfComponents} from './ComponentListPage';
-//import LinearGradient from 'react-native-linear-gradient';
 
 const createStyles = () =>
   StyleSheet.create({
@@ -62,12 +59,9 @@ const createStyles = () =>
   });
 
 const PageTitle = () => {
-  //const {colors} = useTheme();
-  //const colorScheme = useColorScheme();
   const styles = createStyles();
 
   return (
-    // https://github.com/microsoft/WinUI-Gallery/blob/c3cf8db5607c71f5df51fd4eb45d0ce6e932d338/WinUIGallery/Controls/HomePageHeaderImage.xaml#L19
     <View>
       <View style={styles.heroGradient}></View>
       <Image
@@ -95,9 +89,7 @@ const PageTitle = () => {
 };
 
 export const HomePage: React.FunctionComponent<{}> = () => {
-  //const {colors} = useTheme();
   const styles = createStyles();
-  //const isScreenFocused = useIsFocused();
   const navigation = {};
 
   return (
@@ -107,7 +99,7 @@ export const HomePage: React.FunctionComponent<{}> = () => {
           <PageTitle />
           <View style={styles.container}>
             <ListOfComponents
-              heading="Recently added samples"
+              heading="Samples to show at Ignite"
               items={RNGalleryList.filter((item) => item.new)}
               navigation={navigation}
             />

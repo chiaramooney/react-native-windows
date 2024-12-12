@@ -25,7 +25,6 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import XamlCalendarView from './XamlCalendarViewNativeComponent';
 
 
 /*
@@ -46,7 +45,7 @@ type ComponentType = HostComponent<NativeProps>;
 
 /*
 function componentHasNativeconfig(name: string) {
-  return !(global as unknown as {RN$Bridgeless:boolean}).RN$Bridgeless && name !== 'CustomXamlComponentWithNativeLayout' && name !== 'CustomXamlComponentWithYogaLayout' && name !== 'XamlCalendarView'
+  return !(global as unknown as {RN$Bridgeless:boolean}).RN$Bridgeless && name !== 'CustomXamlComponentWithNativeLayout' && name !== 'CustomXamlComponentWithYogaLayout' && name !== 'CalendarView'
 }
 
 const nativeComponentRegistry = require('react-native/Libraries/NativeComponent/NativeComponentRegistry');
@@ -130,8 +129,7 @@ function App(): React.JSX.Element {
           <View style={{
             flexDirection: 'column'
             }}>
-            <XamlCalendarView style={{flex: 1, width: 400, height: 400, minWidth: 400, minHeight: 400}}  />
-          </View>
+            </View>
           <Section title="Learn More">
             Read the docs to discover what to do next:
           </Section>

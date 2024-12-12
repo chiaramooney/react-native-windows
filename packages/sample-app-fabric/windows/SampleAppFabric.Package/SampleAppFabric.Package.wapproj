@@ -51,17 +51,19 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\SplashScreen.scale-200.png" />
-    <Content Include="Images\Square150x150Logo.scale-200.ico" />
-    <Content Include="Images\Square150x150Logo.scale-200.png" />
-    <Content Include="Images\Square44x44Logo.scale-200.png" />
-    <Content Include="Images\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Images\Wide310x150Logo.scale-200.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\SampleAppFabric\SampleAppFabric.vcxproj">
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\SplashScreen.scale-150.png" />
+    <Content Include="Images\Square150x150Logo.scale-150.png" />
+    <Content Include="Images\Square44x44Logo.altform-lightunplated_targetsize-32.png" />
+    <Content Include="Images\Square44x44Logo.altform-unplated_targetsize-32.png" />
+    <Content Include="Images\Square44x44Logo.scale-100.png" />
+    <Content Include="Images\Square44x44Logo.scale-150.png" />
+    <Content Include="Images\Square44x44Logo.targetsize-32.png" />
+    <Content Include="Images\StoreLogo.scale-150.png" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ImportGroup Label="ReactNativeWindowsTargets">

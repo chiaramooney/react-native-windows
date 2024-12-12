@@ -13,7 +13,7 @@
 import React, {useState} from 'react';
 import {Text, View, ScrollView} from 'react-native';
 import CustomXamlComponentWithYogaLayout from './CustomXamlComponentWithYogaLayoutNativeComponent';
-import XamlCalendarView from './XamlCalendarViewNativeComponent';
+import CalendarView from './CalendarViewNativeComponent';
 
 const XamlContentExample = () => {
   let [log, setLog] = useState('');
@@ -31,7 +31,7 @@ const XamlContentExample = () => {
       }}>
 
       <Text>Xaml CalendarView control:</Text>
-      <XamlCalendarView
+      <CalendarView
       style={{flex: 1, width: 400, height: 400, minWidth: 400, minHeight: 400}}
       />      
 

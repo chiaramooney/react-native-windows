@@ -367,7 +367,7 @@ static void RegisterViewComponent(winrt::Microsoft::ReactNative::IReactPackageBu
       });
 
   packageBuilder.as<winrt::Microsoft::ReactNative::IReactPackageBuilderFabric>().AddViewComponent(
-      L"XamlCalendarView",
+      L"CalendarView",
       [](winrt::Microsoft::ReactNative::IReactViewComponentBuilder const &builder) noexcept {
         XamlCalendarComponent::ConfigureBuilderForCustomComponent(builder);
       });

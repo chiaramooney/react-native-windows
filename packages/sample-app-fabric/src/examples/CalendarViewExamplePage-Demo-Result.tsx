@@ -1,17 +1,21 @@
 'use strict';
 import React, {useState} from 'react';
+//import DateTimePicker from '@react-native-community/datetimepicker';
 import {Example} from '../components/Example';
 import {Page} from '../components/Page';
 import {StyleSheet, Text, View} from 'react-native';
+// IMPORT OF CALENDARVIEW MODULE
 import CalendarView  from '../XamlCalendarViewNativeComponent';
 
 export const CalendarViewExamplePage: React.FunctionComponent<{}> = () => {
-  const [date, setDate] = useState('No Date Specified');
+  // TODO: STATE VARIABLE FOR SELECTED DATE
+  const [date, setDate] = useState('No Date Selected');
   const styles = createStyles();
 
   const textExample1 =
     '<CalendarView /> ';
 
+  // TODO: DATE CHANGE EVENT HANDLER
   const onSelectedDatesChanged = (e: any) => {
     setDate(e.nativeEvent.startDate);
   }
@@ -35,7 +39,9 @@ export const CalendarViewExamplePage: React.FunctionComponent<{}> = () => {
         },
       ]}>
       <Example title="A basic calendar view." code={textExample1}>
-            <Text style={styles.text}>Date Selected: {date}</Text>
+            {/* TODO: DISPLAY SELECTED DATE */}
+            <Text style={styles.text}>Selected Date: {date}</Text>
+            {/* TODO: CALENDAR VIEW CONTROL */}
             <CalendarView style={styles.control} onSelectedDatesChanged={onSelectedDatesChanged}/>
       </Example>
     </Page>
@@ -46,9 +52,8 @@ const createStyles = () =>
   StyleSheet.create({
     control: {
       minHeight: 800, 
-      minWidth: 700,
-      marginBottom: '-270', 
-      marginTop: '-180'
+      marginBottom: '-300', 
+      marginTop: '-150'
     },
     text: {
       fontWeight: '600',

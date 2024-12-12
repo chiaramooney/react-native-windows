@@ -22,6 +22,8 @@
 
 #include "App.xaml.h"
 
+float scale = 1.25;
+
 REACT_STRUCT(CustomXamlComponentProps)
 struct CustomXamlComponentProps
     : winrt::implements<CustomXamlComponentProps, winrt::Microsoft::ReactNative::IComponentProps> {
@@ -80,12 +82,14 @@ struct CustomXamlComponentEventEmitter {
 struct XamlCalendarComponent : winrt::implements<XamlCalendarComponent, winrt::IInspectable> {
   void Initialize(const winrt::Microsoft::ReactNative::Composition::ContentIslandComponentView &islandView) {
     m_xamlIsland = winrt::Microsoft::UI::Xaml::XamlIsland{};
-
+    // INSTANTIATE WINUI CALENDARVIEW CONTROL
     m_calendarView = winrt::Microsoft::UI::Xaml::Controls::CalendarView{};
+    m_calendarView.IsOutOfScopeEnabled(true);
+    m_calendarView.IsGroupLabelVisible(true);
     winrt::Microsoft::UI::Xaml::Media::ScaleTransform scaleTransform{};
-    scaleTransform.ScaleX(1.5f);
-    scaleTransform.ScaleY(1.5f);
-    cv.RenderTransform(scaleTransform);
+    scaleTransform.ScaleX(scale);
+    scaleTransform.ScaleY(scale);
+    m_calendarView.RenderTransform(scaleTransform);
     m_xamlIsland.Content(m_calendarView);
     islandView.Connect(m_xamlIsland.ContentIsland());
 
@@ -105,7 +109,7 @@ struct XamlCalendarComponent : winrt::implements<XamlCalendarComponent, winrt::I
             ::StringCchPrintf(
                 buffer,
                 ARRAYSIZE(buffer),
-                L"%d / %d / %d",
+                L"%d/%d/%d",
                 timeStr._Tptr->tm_mon + 1,
                 timeStr._Tptr->tm_mday,
                 timeStr._Tptr->tm_year + 1900);
