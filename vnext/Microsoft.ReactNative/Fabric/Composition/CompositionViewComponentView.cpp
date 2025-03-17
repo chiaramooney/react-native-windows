@@ -26,6 +26,7 @@
 #include "TooltipService.h"
 #include "UiaHelpers.h"
 #include "d2d1helper.h"
+#include <atlcomcli.h>
 
 #include "Composition.ComponentView.g.cpp"
 #include "Composition.ViewComponentView.g.cpp"
@@ -331,9 +332,9 @@ void ComponentView::onLostFocus(
 
       m_componentHostingFocusVisual->hostFocusVisual(false, get_strong());
     }
-    if (m_uiaProvider) {
+    if (UiaClientsAreListening()) {
       winrt::Microsoft::ReactNative::implementation::UpdateUiaProperty(
-          m_uiaProvider, UIA_HasKeyboardFocusPropertyId, true, false);
+          EnsureUiaProvider(), UIA_HasKeyboardFocusPropertyId, true, false);
     }
   }
   base_type::onLostFocus(args);
@@ -381,12 +382,29 @@ void ComponentView::onGotFocus(
       focusRect.size.height += (FOCUS_VISUAL_WIDTH * 2);
       focusVisualRoot(focusRect)->hostFocusVisual(true, get_strong());
     }
-    if (m_uiaProvider) {
-      auto spProviderSimple = m_uiaProvider.try_as<IRawElementProviderSimple>();
+    if (UiaClientsAreListening()) {
+      auto spProviderSimple = EnsureUiaProvider().try_as<IRawElementProviderSimple>();
       if (spProviderSimple != nullptr) {
-        winrt::Microsoft::ReactNative::implementation::UpdateUiaProperty(
-            m_uiaProvider, UIA_HasKeyboardFocusPropertyId, false, true);
-        UiaRaiseAutomationEvent(spProviderSimple.get(), UIA_AutomationFocusChangedEventId);
+        // winrt::Microsoft::ReactNative::implementation::UpdateUiaProperty(
+        //     m_uiaProvider, UIA_HasKeyboardFocusPropertyId, false, true);
+        auto hr = UiaRaiseAutomationPropertyChangedEvent(
+            spProviderSimple.get(), UIA_HasKeyboardFocusPropertyId, CComVariant(false), CComVariant(true));
+        hr = UiaRaiseAutomationEvent(spProviderSimple.get(), UIA_AutomationFocusChangedEventId);
+        hr = UiaRaiseAutomationEvent(spProviderSimple.get(), UIA_AutomationPropertyChangedEventId);
+        if (SUCCEEDED(hr)) {
+          BSTR bstrText = SysAllocString(L"Success");
+          BSTR bstrActivityId = SysAllocString(L"Announcement");
+
+          UiaRaiseNotificationEvent(
+              spProviderSimple.get(),
+              NotificationKind_ActionCompleted,
+              NotificationProcessing_ImportantAll,
+              bstrText,
+              bstrActivityId);
+          SysFreeString(bstrText);
+          SysFreeString(bstrActivityId);
+        }
+        
       }
     }
 
@@ -743,59 +761,62 @@ void ComponentView::updateTransformProps(
 void ComponentView::updateAccessibilityProps(
     const facebook::react::ViewProps &oldViewProps,
     const facebook::react::ViewProps &newViewProps) noexcept {
-  if (!m_uiaProvider)
+  if (!UiaClientsAreListening())
     return;
 
   winrt::Microsoft::ReactNative::implementation::UpdateUiaProperty(
-      m_uiaProvider, UIA_IsKeyboardFocusablePropertyId, oldViewProps.focusable, newViewProps.focusable);
+      EnsureUiaProvider(), UIA_IsKeyboardFocusablePropertyId, oldViewProps.focusable, newViewProps.focusable);
 
   winrt::Microsoft::ReactNative::implementation::UpdateUiaProperty(
-      m_uiaProvider,
+      EnsureUiaProvider(),
       UIA_NamePropertyId,
       oldViewProps.accessibilityLabel,
       newViewProps.accessibilityLabel.empty() ? DefaultAccessibleName() : newViewProps.accessibilityLabel);
 
   winrt::Microsoft::ReactNative::implementation::UpdateUiaProperty(
-      m_uiaProvider,
+      EnsureUiaProvider(),
       UIA_IsContentElementPropertyId,
       (oldViewProps.accessible && oldViewProps.accessibilityRole != "none"),
       (newViewProps.accessible && newViewProps.accessibilityRole != "none"));
 
   winrt::Microsoft::ReactNative::implementation::UpdateUiaProperty(
-      m_uiaProvider,
+      EnsureUiaProvider(),
       UIA_IsControlElementPropertyId,
       (oldViewProps.accessible && oldViewProps.accessibilityRole != "none"),
       (newViewProps.accessible && newViewProps.accessibilityRole != "none"));
 
   winrt::Microsoft::ReactNative::implementation::UpdateUiaProperty(
-      m_uiaProvider,
+      EnsureUiaProvider(),
       UIA_IsEnabledPropertyId,
       !(oldViewProps.accessibilityState && oldViewProps.accessibilityState->disabled),
       !(newViewProps.accessibilityState && newViewProps.accessibilityState->disabled));
 
   winrt::Microsoft::ReactNative::implementation::UpdateUiaProperty(
-      m_uiaProvider,
+      EnsureUiaProvider(),
       UIA_IsEnabledPropertyId,
       !(oldViewProps.accessibilityState && oldViewProps.accessibilityState->busy),
       !(newViewProps.accessibilityState && newViewProps.accessibilityState->busy));
 
   winrt::Microsoft::ReactNative::implementation::UpdateUiaProperty(
-      m_uiaProvider, UIA_ControlTypePropertyId, oldViewProps.accessibilityRole, newViewProps.accessibilityRole);
+      EnsureUiaProvider(), UIA_ControlTypePropertyId, oldViewProps.accessibilityRole, newViewProps.accessibilityRole);
 
   winrt::Microsoft::ReactNative::implementation::UpdateUiaProperty(
-      m_uiaProvider, UIA_HelpTextPropertyId, oldViewProps.accessibilityHint, newViewProps.accessibilityHint);
+      EnsureUiaProvider(), UIA_HelpTextPropertyId, oldViewProps.accessibilityHint, newViewProps.accessibilityHint);
 
   winrt::Microsoft::ReactNative::implementation::UpdateUiaProperty(
-      m_uiaProvider,
+      EnsureUiaProvider(),
       UIA_PositionInSetPropertyId,
       oldViewProps.accessibilityPosInSet,
       newViewProps.accessibilityPosInSet);
 
   winrt::Microsoft::ReactNative::implementation::UpdateUiaProperty(
-      m_uiaProvider, UIA_SizeOfSetPropertyId, oldViewProps.accessibilitySetSize, newViewProps.accessibilitySetSize);
+      EnsureUiaProvider(),
+      UIA_SizeOfSetPropertyId,
+      oldViewProps.accessibilitySetSize,
+      newViewProps.accessibilitySetSize);
 
   winrt::Microsoft::ReactNative::implementation::UpdateUiaProperty(
-      m_uiaProvider,
+      EnsureUiaProvider(),
       UIA_LiveSettingPropertyId,
       oldViewProps.accessibilityLiveRegion,
       newViewProps.accessibilityLiveRegion);
@@ -803,7 +824,8 @@ void ComponentView::updateAccessibilityProps(
   if ((oldViewProps.accessibilityState.has_value() && oldViewProps.accessibilityState->selected.has_value()) !=
       ((newViewProps.accessibilityState.has_value() && newViewProps.accessibilityState->selected.has_value()))) {
     auto compProvider =
-        m_uiaProvider.try_as<winrt::Microsoft::ReactNative::implementation::CompositionDynamicAutomationProvider>();
+        EnsureUiaProvider()
+            .try_as<winrt::Microsoft::ReactNative::implementation::CompositionDynamicAutomationProvider>();
     if (compProvider) {
       if ((newViewProps.accessibilityState.has_value() && newViewProps.accessibilityState->selected.has_value())) {
         winrt::Microsoft::ReactNative::implementation::AddSelectionItemsToContainer(compProvider.get());
