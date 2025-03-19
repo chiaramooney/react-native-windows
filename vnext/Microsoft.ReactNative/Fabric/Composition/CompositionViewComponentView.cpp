@@ -15,6 +15,7 @@
 #include <Utils/KeyboardUtils.h>
 #include <Utils/ValueUtils.h>
 #include <Views/FrameworkElementTransferProperties.h>
+#include <atlcomcli.h>
 #include <winrt/Microsoft.ReactNative.Composition.Experimental.h>
 #include <winrt/Microsoft.UI.Input.h>
 #include <winrt/Windows.UI.Composition.h>
@@ -26,7 +27,6 @@
 #include "TooltipService.h"
 #include "UiaHelpers.h"
 #include "d2d1helper.h"
-#include <atlcomcli.h>
 
 #include "Composition.ComponentView.g.cpp"
 #include "Composition.ViewComponentView.g.cpp"
@@ -385,26 +385,9 @@ void ComponentView::onGotFocus(
     if (UiaClientsAreListening()) {
       auto spProviderSimple = EnsureUiaProvider().try_as<IRawElementProviderSimple>();
       if (spProviderSimple != nullptr) {
-        // winrt::Microsoft::ReactNative::implementation::UpdateUiaProperty(
-        //     m_uiaProvider, UIA_HasKeyboardFocusPropertyId, false, true);
         auto hr = UiaRaiseAutomationPropertyChangedEvent(
             spProviderSimple.get(), UIA_HasKeyboardFocusPropertyId, CComVariant(false), CComVariant(true));
         hr = UiaRaiseAutomationEvent(spProviderSimple.get(), UIA_AutomationFocusChangedEventId);
-        hr = UiaRaiseAutomationEvent(spProviderSimple.get(), UIA_AutomationPropertyChangedEventId);
-        if (SUCCEEDED(hr)) {
-          BSTR bstrText = SysAllocString(L"Success");
-          BSTR bstrActivityId = SysAllocString(L"Announcement");
-
-          UiaRaiseNotificationEvent(
-              spProviderSimple.get(),
-              NotificationKind_ActionCompleted,
-              NotificationProcessing_ImportantAll,
-              bstrText,
-              bstrActivityId);
-          SysFreeString(bstrText);
-          SysFreeString(bstrActivityId);
-        }
-        
       }
     }
 
